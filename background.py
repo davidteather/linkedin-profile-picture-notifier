@@ -39,7 +39,6 @@ def check_for_updates():
             # visit all the profiles
             for profile in notifiers:
                 cur_profile = extract_profile(profile['url'], page)
-                print(cur_profile)
                 current_profile_image = cur_profile['avatar_url']
                 if current_profile_image != profile['previous_image']:
                     for email in profile['emails']:
