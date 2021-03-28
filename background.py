@@ -2,6 +2,7 @@
 from playwright.sync_api import sync_playwright
 
 import apscheduler
+import smtplib, ssl
 import logging
 import json
 import time
@@ -9,7 +10,15 @@ import time
 def send_email(email, profile):
     mail_message = f"The user {profile['name']} has changed their profile picture\n Url: {profile['url']}"
 
-    # email logic
+    port = 465  # For SSL
+    smtp_server = "smtp.gmail.com"
+    sender_email = "linkedin.picture.emailer@gmail.com"
+    password = "LinkedInEmailer1!"
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, email, mail_message)
 
     logging.info(f"Sent email to: {email}")
 
