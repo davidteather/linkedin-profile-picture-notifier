@@ -1,9 +1,9 @@
-{
-  "profiles_to_track": [
+[
     {
-      "emails": ["contact.davidteather@gmail.com"],
-      "url": "https://www.linkedin.com/in/davidteather/",
-      "previous_image": "https://media-exp1.licdn.com/dms/image/C5635AQGBW7c0N7whtw/profile-framedphoto-shrink_200_200/0/1608674261349?e=1617058800&v=beta&t=5HyqxM1kyuZlaY6SJya4T3Lepa1iQCe-sIpzW_vunSc"
+        "emails": [
+            "contact.davidteather@gmail.com"
+        ],
+        "url": "https://www.linkedin.com/in/davidteather/",
+        "previous_image": "https://media-exp1.licdn.com/dms/image/C5603AQEbQFmYSKYSBQ/profile-displayphoto-shrink_200_200/0/1616972418614?e=1622678400&v=beta&t=83Oqu29h9FpEUbJEU45ieuqNvrH4cWD0KTLJshXGGbs"
     }
-  ]
-}
+]
