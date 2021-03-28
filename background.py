@@ -7,18 +7,21 @@ import logging
 import json
 import time
 
+with open("settings.json", 'r') as settings_raw:
+    settings = json.loads(settings_raw.read())
+
+    SMTP_PORT = settings['smtp_port']
+    SMTP_SERVER = settings['smtp_address']
+    SENDER_EMAIL = settings['sender_email']
+    SENDER_EMAIL_PASS = settings['sender_email_password']
+
 def send_email(email, profile):
     mail_message = f"The user {profile['name']} has changed their profile picture\n Url: {profile['url']}"
 
-    port = 465  # For SSL
-    smtp_server = "smtp.gmail.com"
-    sender_email = "linkedin.picture.emailer@gmail.com"
-    password = "LinkedInEmailer1!"
-
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender_email, password)
-        server.sendmail(sender_email, email, mail_message)
+    with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, context=context) as server:
+        server.login(SENDER_EMAIL, SENDER_EMAIL_PASS)
+        server.sendmail(SENDER_EMAIL, email, mail_message)
 
     logging.info(f"Sent email to: {email}")
 
