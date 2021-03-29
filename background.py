@@ -1,5 +1,6 @@
 # Track profile changes & email on change
 from playwright.sync_api import sync_playwright
+from email.mime.text import MIMEText
 
 import apscheduler
 import smtplib, ssl
@@ -20,16 +21,17 @@ with open("settings.json", 'r') as settings_raw:
     WEBSITE_HOMEPAGE_URL = settings['website_homepage_url']
 
 def send_email(email, profile, notifier):
-    # TODO: Add a subject line, and link the delete link
     subject = f"{profile['name']} has changed their LinkedIn Profile"
     delete_notifier_link = f"{WEBSITE_HOMEPAGE_URL}/delete-notifier/{notifier['uuid']}"
-    mail_message = f"The user {profile['name']} has changed their profile picture\n Url: {profile['url']}"
+    mail_message = f"The user {profile['name']} has changed their profile picture Picture\nUrl: {profile['url']}\nTo Unsubscribe From This LinkedIn User: {delete_notifier_link}"
 
+    msg = MIMEText(mail_message)
+    msg['Subject'] = subject
 
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, context=context) as server:
         server.login(SENDER_EMAIL, SENDER_EMAIL_PASS)
-        server.sendmail(SENDER_EMAIL, email, mail_message)
+        server.sendmail(SENDER_EMAIL, email, msg.as_string())
 
     logging.info(f"Sent email to: {email}")
 
