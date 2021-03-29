@@ -8,7 +8,6 @@ import logging
 import json
 import time
 
-# TODO: Apscheduler to run on an interval
 
 # load settings
 with open("settings.json", 'r') as settings_raw:
@@ -47,7 +46,7 @@ def extract_profile(url, page):
 
     return {'name': name, 'avatar_url': avatar_url, 'url': url}
 
-# apschedule this to run at some time
+@apscheduler.register_job(apscheduler.scheduler, "cron", hour='0')
 def check_for_updates():
     with open("data.json", 'r') as inp:
         notifiers = json.loads(inp.read())['profiles_to_track']
