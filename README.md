@@ -1,5 +1,9 @@
 # linkedin-profile-picture-notifier
-This is a commissioned project that notifies users over email when a person's LinkedIn profile picture changes
+This is a commissioned project that notifies users over email when a person's LinkedIn 
+profile picture changes. If a person changes their profile image on LinkedIn it may imply
+that the individual is looking at jobs at other places as they are actively on LinkedIn.
+Recruiters are able to utilize this software in order to be the first to reach out to 
+individuals tracked by the program.
 
 
 ## Setup and installation
