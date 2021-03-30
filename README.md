@@ -42,6 +42,11 @@ Here's a sample settings.json that uses a gmail account to send the emails. To d
 
 ## Setup and installation
 
+Software Requirements
+```
+-Python 3.8+
+```
+
 Install dependencies
 ```
 pip install -r requirements.txt
