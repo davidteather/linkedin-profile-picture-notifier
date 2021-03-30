@@ -42,15 +42,18 @@ def add_notifier(request: Request, email: str = Form(...), linkedInUrl: str = Fo
     return templates.TemplateResponse("index.html", {"request": request, "success": True})
 
 
-@app.get("/delete-notifier/{uuid}", response_class=HTMLResponse)
-def read_item(request: Request, uuid: str):
+@app.get("/delete-notifier/{uuid}/{email}", response_class=HTMLResponse)
+def read_item(request: Request, uuid: str, email : str):
     with open("data.json", 'r') as data:
         data_json = json.loads(data.read())
 
     for item in data_json['profiles_to_track']:
         if item['uuid'] == uuid:
-            data_json['profiles_to_track'].remove(item)
+            for mails in item['emails']:
+                if mails == email:
+                    item['emails'].remove(mails)
 
     with open('data.json', 'w', encoding='utf-8') as f:
         json.dump(data_json, f, ensure_ascii=False)
+        
     return templates.TemplateResponse("delete_notifier.html", {"request": request})
