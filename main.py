@@ -31,18 +31,18 @@ def add_notifier(request: Request, email: str = Form(...), linkedInUrl: str = Fo
         data_json = json.loads(data.read())
 
     temp_item = None
-
     for item in data_json['profiles_to_track']:
         if item['url'] == linkedInUrl:
             temp_item = item
 
     if temp_item:
-        item['emails'] += email.split(",")
+        temp_item['emails'].extend(email.split(","))
+        temp_item['emails'] = list(set(temp_item['emails']))
 
     else:
         data_json['profiles_to_track'].append({
             "uuid": str(uuid.uuid4()),
-            "emails": [email.split(",")],
+            "emails": list(set(email.split(","))),
             "url": linkedInUrl,
             "previous_image": "",
         })
