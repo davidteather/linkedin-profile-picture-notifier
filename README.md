@@ -44,7 +44,7 @@ Here's a sample settings.json that uses a gmail account to send the emails. To d
 
 Software Requirements
 ```
--Python 3.8+
+Python 3.8+
 ```
 
 Install dependencies
