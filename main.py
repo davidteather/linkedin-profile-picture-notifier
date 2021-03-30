@@ -30,12 +30,22 @@ def add_notifier(request: Request, email: str = Form(...), linkedInUrl: str = Fo
     with open("data.json", 'r') as data:
         data_json = json.loads(data.read())
 
-    data_json['profiles_to_track'].append({
-        "uuid": str(uuid.uuid4()),
-        "emails": [email.split(",")],
-        "url": linkedInUrl,
-        "previous_image": "",
-    })
+    temp_item = None
+
+    for item in data_json['profiles_to_track']:
+        if item['uuid'] == uuid:
+            temp_item = item
+
+    if temp_item:
+        item['emails'] += email.split(",")
+
+    else:
+        data_json['profiles_to_track'].append({
+            "uuid": str(uuid.uuid4()),
+            "emails": [email.split(",")],
+            "url": linkedInUrl,
+            "previous_image": "",
+        })
 
     with open('data.json', 'w', encoding='utf-8') as f:
         json.dump(data_json, f, ensure_ascii=False)
