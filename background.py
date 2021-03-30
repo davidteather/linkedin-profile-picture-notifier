@@ -49,7 +49,7 @@ def extract_profile(url, page):
 
     return {'name': name, 'avatar_url': avatar_url, 'url': url}
 
-@apscheduler.register_job(apscheduler.scheduler, "cron", hour='0')
+#@apscheduler.register_job(apscheduler.scheduler, "cron", hour='0')
 def check_for_updates():
     with open("data.json", 'r') as inp:
         notifiers = json.loads(inp.read())['profiles_to_track']
@@ -83,4 +83,6 @@ def check_for_updates():
 
     # write the new JSON to the data.json
     with open('data.json', 'w', encoding='utf-8') as f:
-        json.dump(notifiers, f, ensure_ascii=False)
+        json.dump({'profiles_to_track': notifiers}, f, ensure_ascii=False)
+
+check_for_updates()
