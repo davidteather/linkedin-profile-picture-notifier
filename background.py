@@ -35,8 +35,11 @@ def send_email(email, profile, notifier):
     logging.info(f"Sent email to: {email}")
 
 def extract_profile(url, page):
-    page.goto(url)
-
+    try:
+        page.goto(url)
+    except:
+        logging.error(f"Could not go to {url}")
+        raise Exception(f"Invalid url {url}")
     # wait for page load
     page.wait_for_selector('xpath=//*[@id="main-content"]/section[1]/section/section[1]/div/div[2]/div[1]/h1')
 
@@ -59,7 +62,10 @@ def check_for_updates():
 
             # visit all the profiles
             for profile in notifiers:
-                cur_profile = extract_profile(profile['url'], page)
+                try:
+                    cur_profile = extract_profile(profile['url'], page)
+                except:
+                    continue
                 current_profile_image = cur_profile['avatar_url']
 
                 if profile['previous_image'] == "":
