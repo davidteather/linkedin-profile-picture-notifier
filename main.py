@@ -33,7 +33,7 @@ def add_notifier(request: Request, email: str = Form(...), linkedInUrl: str = Fo
     temp_item = None
 
     for item in data_json['profiles_to_track']:
-        if item['uuid'] == uuid:
+        if item['url'] == linkedInUrl:
             temp_item = item
 
     if temp_item:
