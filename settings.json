@@ -3,5 +3,7 @@
     "smtp_port": 465,
     "sender_email": "",
     "sender_email_password": "",
-    "website_homepage_url": ""
+    "website_homepage_url": "",
+    "linked_in_username": "",
+    "linked_in_password": ""
 }
