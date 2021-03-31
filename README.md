@@ -29,6 +29,8 @@ You will need to configure settings.json here's a template
 - sender_email: This is the email you want to send the notifications from
 - sender_email_password: The password to the email above
 - website_homepage_url: The URL to access the main page that FastAPI provides, do **not** include the slash at the end see the sample below
+- linked_in_username: The username/email of the LinkedIn user to log into. You must not have two factor authentication enabled.
+- linked_in_password: The password of the LinkedIn user to log into. You must not have two factor authentication enabled.
 
 Here's a sample settings.json that uses a gmail account to send the emails. To do this you'll have to [enable less secure apps](https://support.google.com/accounts/answer/6010255?hl=en) on your gmail account you want to send the emails from.
 
