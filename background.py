@@ -25,7 +25,7 @@ with open("settings.json", 'r') as settings_raw:
 def send_email(email, profile, notifier):
     subject = f"{profile['name']} has changed their LinkedIn Profile"
     delete_notifier_link = f"{WEBSITE_HOMEPAGE_URL}/delete-notifier/{notifier['uuid']}/{urllib.parse.quote(str(email))}"
-    mail_message = f"The user {profile['name']} has changed their profile picture<br>Url: {profile['url']}<br><a href='{delete_notifier_link}'>Unsubscribe From This LinkedIn User</a>"
+    mail_message = f"The user <a href='{profile['url']}'>{profile['name']}</a> has changed their profile picture<br><br><a href='{delete_notifier_link}'>Unsubscribe From This LinkedIn User</a>"
 
     msg = MIMEText(mail_message, 'html')
     msg['Subject'] = subject
