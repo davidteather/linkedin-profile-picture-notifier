@@ -40,9 +40,9 @@ def send_email(email, profile, notifier):
 def extract_profile(url, page):
     page.goto(url)
     # wait for page load
-    page.wait_for_selector('xpath=(//*[@id="main-content"]/section[1]/section/section[1]/div/div[2]/div[1]/h1 | /html/body/main/div/div/form[2]/section/p/a)')
-    time.sleep(2)
-
+    time.sleep(10)
+    # id like to use the line below although the issue is that think linkedin does network grabs of conversations so time sleep it is
+    #page.wait_for_load_state(state='domcontentloaded', timeout=35000.0)
     if len(page.query_selector_all('xpath=/html/body/main/div/div/form[2]/section/p/a')) != 0:
         # click sign in button
         page.click('xpath=/html/body/main/div/div/form[2]/section/p/a')
@@ -55,13 +55,12 @@ def extract_profile(url, page):
 
         page.click('xpath=//*[@id="login-submit"]')
         time.sleep(8)
-        
+    
     name = page.query_selector('xpath=//title').inner_text().split(" | LinkedIn")[0]
     if ")" in name:
         name = name.split(") ")[1]
     avatar_url = page.query_selector(f'xpath=//img[@title="{name}"]').get_attribute('src')
 
-    print({'name': name, 'avatar_url': avatar_url, 'url': url})
     return {'name': name, 'avatar_url': avatar_url, 'url': url}
 
 def check_for_updates():
