@@ -41,8 +41,7 @@ def extract_profile(url, page):
     page.goto(url)
     # wait for page load
     time.sleep(10)
-    # id like to use the line below although the issue is that think linkedin does network grabs of conversations so time sleep it is
-    #page.wait_for_load_state(state='domcontentloaded', timeout=35000.0)
+    
     if len(page.query_selector_all('xpath=/html/body/main/div/div/form[2]/section/p/a')) != 0:
         # click sign in button
         page.click('xpath=/html/body/main/div/div/form[2]/section/p/a')
@@ -70,7 +69,8 @@ def check_for_updates():
         notifiers = json.loads(inp.read())['profiles_to_track']
         with sync_playwright() as p:
             # launch playwright
-            browser = p.chromium.launch(headless=False)
+            browser = p.chromium.launch(headless=True)
+            
             # with proxy
             #browser = p.chromium.launch(headless=False, proxy = {'server': "http://40.85.152.26:8080", 'port': '8080'})
 
