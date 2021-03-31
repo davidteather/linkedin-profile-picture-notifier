@@ -89,7 +89,11 @@ def check_for_updates():
                     profile['previous_image'] = current_profile_image
                 elif current_profile_image != profile['previous_image']:
                     for email in profile['emails']:
-                        send_email(email, cur_profile, profile)
+                        try:
+                            send_email(email, cur_profile, profile)
+                        except Exception as e:
+                            logging.error(e)
+                            logging.error(f'Failed to send email to {email} is it valid?')
                     # set previous image to the current image used on the profile
                     profile['previous_image'] = current_profile_image
 
