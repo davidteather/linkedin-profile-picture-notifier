@@ -34,6 +34,7 @@ def send_email(email, profile, notifier):
         server.sendmail(SENDER_EMAIL, email, msg.as_string())
 
     logging.info(f"Sent email to: {email}")
+    print("email sent")
 
 def extract_profile(url, page):
     try:

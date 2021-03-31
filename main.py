@@ -3,8 +3,10 @@ from starlette.responses import RedirectResponse
 from fastapi.responses import HTMLResponse
 from fastapi import FastAPI, Request, Form
 from typing import Optional
+import logging
 import json
 import uuid
+import os
 
 '''
 Project Specifications
@@ -28,7 +30,16 @@ async def return_homepage(request: Request):
 @app.post('/add-notifier')
 def add_notifier(request: Request, email: str = Form(...), linkedInUrl: str = Form(...)):
     with open("data.json", 'r') as data:
-        data_json = json.loads(data.read())
+        try:
+            data_json = json.loads(data.read())
+        except json.decoder.JSONDecodeError:
+            # handles if file doesn't exist or data is invalid
+            if os.path.isfile('data.json'):
+                with open("data.json", 'w+') as out:
+                    out.write('{"profiles_to_track": []}')
+                    data_json = {"profiles_to_track": []}
+            else:
+                logging.critical("data.json is formatted incorrectly")
 
     temp_item = None
     for item in data_json['profiles_to_track']:
@@ -53,7 +64,7 @@ def add_notifier(request: Request, email: str = Form(...), linkedInUrl: str = Fo
 
 
 @app.get("/delete-notifier/{uuid}/{email}", response_class=HTMLResponse)
-def read_item(request: Request, uuid: str, email : str):
+def read_item(request: Request, uuid: str, email: str):
     with open("data.json", 'r') as data:
         data_json = json.loads(data.read())
 
@@ -68,5 +79,5 @@ def read_item(request: Request, uuid: str, email : str):
 
     with open('data.json', 'w', encoding='utf-8') as f:
         json.dump(data_json, f, ensure_ascii=False)
-        
+
     return templates.TemplateResponse("delete_notifier.html", {"request": request})
