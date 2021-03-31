@@ -106,11 +106,7 @@ def check_for_updates():
     with open('data.json', 'w', encoding='utf-8') as f:
         json.dump({'profiles_to_track': notifiers}, f, ensure_ascii=False)
 
-check_for_updates()
-
-'''
 sched = BlockingScheduler()
 sched.add_job(check_for_updates, 'cron', hour='0')
 
 sched.start()
-'''
