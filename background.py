@@ -19,6 +19,8 @@ with open("settings.json", 'r') as settings_raw:
     SENDER_EMAIL = settings['sender_email']
     SENDER_EMAIL_PASS = settings['sender_email_password']
     WEBSITE_HOMEPAGE_URL = settings['website_homepage_url']
+    LINKEDIN_USERNAME = settings['linked_in_username']
+    LINKEDIN_PASSWORD = settings['linked_in_password']
 
 def send_email(email, profile, notifier):
     subject = f"{profile['name']} has changed their LinkedIn Profile"
@@ -38,13 +40,28 @@ def send_email(email, profile, notifier):
 def extract_profile(url, page):
     page.goto(url)
     # wait for page load
-    page.wait_for_selector('xpath=//*[@id="main-content"]/section[1]/section/section[1]/div/div[2]/div[1]/h1')
-    time.sleep(10)
+    page.wait_for_selector('xpath=(//*[@id="main-content"]/section[1]/section/section[1]/div/div[2]/div[1]/h1 | /html/body/main/div/div/form[2]/section/p/a)')
+    time.sleep(2)
 
-    # extract name & avatar url
-    name = page.query_selector('xpath=//*[@id="main-content"]/section[1]/section/section[1]/div/div[2]/div[1]/h1').inner_text()
-    avatar_url = page.query_selector('xpath=//*[@id="main-content"]/section[1]/section/section[1]/div/div[1]/img').get_attribute('src')
+    if len(page.query_selector_all('xpath=/html/body/main/div/div/form[2]/section/p/a')) != 0:
+        # click sign in button
+        page.click('xpath=/html/body/main/div/div/form[2]/section/p/a')
+        time.sleep(1)
 
+        # type stuff in
+        page.type('input[name=session_key]', LINKEDIN_USERNAME)
+        page.type('input[name=session_password]', LINKEDIN_PASSWORD)
+        time.sleep(1)
+
+        page.click('xpath=//*[@id="login-submit"]')
+        time.sleep(8)
+        
+    name = page.query_selector('xpath=//title').inner_text().split(" | LinkedIn")[0]
+    if ")" in name:
+        name = name.split(") ")[1]
+    avatar_url = page.query_selector(f'xpath=//img[@title="{name}"]').get_attribute('src')
+
+    print({'name': name, 'avatar_url': avatar_url, 'url': url})
     return {'name': name, 'avatar_url': avatar_url, 'url': url}
 
 def check_for_updates():

@@ -16,7 +16,9 @@ You will need to configure settings.json here's a template
     "smtp_port": 0,
     "sender_email": "",
     "sender_email_password": "",
-    "website_homepage_url": ""
+    "website_homepage_url": "",
+    "linked_in_username": "",
+    "linked_in_password": ""
 }
 ```
 
@@ -36,7 +38,9 @@ Here's a sample settings.json that uses a gmail account to send the emails. To d
     "smtp_port": 465,
     "sender_email": "youremail@gmail.com",
     "sender_email_password": "yourpassword",
-    "website_homepage_url": "http://127.0.0.1:8000"
+    "website_homepage_url": "http://127.0.0.1:8000",
+    "linked_in_username": "",
+    "linked_in_password": ""
 }
 ```
 
