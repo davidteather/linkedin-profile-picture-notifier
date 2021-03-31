@@ -59,7 +59,9 @@ def extract_profile(url, page):
     name = page.query_selector('xpath=//title').inner_text().split(" | LinkedIn")[0]
     if ")" in name:
         name = name.split(") ")[1]
-    avatar_url = page.query_selector(f'xpath=//img[@title="{name}"]').get_attribute('src')
+    if " - " in name:
+        name = name.split(" - ")[0]
+    avatar_url = page.query_selector(f'xpath=//img[@alt="{name}"]').get_attribute('src')
 
     return {'name': name, 'avatar_url': avatar_url, 'url': url}
 
