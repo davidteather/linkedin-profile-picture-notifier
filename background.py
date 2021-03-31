@@ -2,11 +2,12 @@
 from playwright.sync_api import sync_playwright
 from email.mime.text import MIMEText
 
-import apscheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
 import smtplib, ssl
 import logging
 import json
 import time
+import urllib.parse
 
 
 # load settings
@@ -21,8 +22,8 @@ with open("settings.json", 'r') as settings_raw:
 
 def send_email(email, profile, notifier):
     subject = f"{profile['name']} has changed their LinkedIn Profile"
-    delete_notifier_link = f"{WEBSITE_HOMEPAGE_URL}/delete-notifier/{notifier['uuid']}/{email}"
-    mail_message = f"The user {profile['name']} has changed their profile picture Picture\nUrl: {profile['url']}\n<a href='{delete_notifier_link}'>Unsubscribe From This LinkedIn User</a>"
+    delete_notifier_link = f"{WEBSITE_HOMEPAGE_URL}/delete-notifier/{notifier['uuid']}/{urllib.parse.quote(str(email))}"
+    mail_message = f"The user {profile['name']} has changed their profile picture<br>Url: {profile['url']}<br><a href='{delete_notifier_link}'>Unsubscribe From This LinkedIn User</a>"
 
     msg = MIMEText(mail_message, 'html')
     msg['Subject'] = subject
@@ -46,7 +47,6 @@ def extract_profile(url, page):
 
     return {'name': name, 'avatar_url': avatar_url, 'url': url}
 
-#@apscheduler.register_job(apscheduler.scheduler, "cron", hour='0')
 def check_for_updates():
     with open("data.json", 'r') as inp:
         notifiers = json.loads(inp.read())['profiles_to_track']
@@ -85,3 +85,10 @@ def check_for_updates():
         json.dump({'profiles_to_track': notifiers}, f, ensure_ascii=False)
 
 check_for_updates()
+
+'''
+sched = BlockingScheduler()
+sched.add_job(check_for_updates, 'cron', hour='0')
+
+sched.start()
+'''

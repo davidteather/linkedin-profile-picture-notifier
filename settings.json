@@ -2,5 +2,6 @@
     "smtp_address": "smtp.gmail.com",
     "smtp_port": 465,
     "sender_email": "",
-    "sender_email_password": ""
+    "sender_email_password": "",
+    "website_homepage_url": ""
 }
