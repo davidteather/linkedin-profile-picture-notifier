@@ -63,6 +63,9 @@ def read_item(request: Request, uuid: str, email : str):
                 if mails == email:
                     item['emails'].remove(mails)
 
+                    if len(item['emails']) == 0:
+                        data_json['profiles_to_track'].remove(item)
+
     with open('data.json', 'w', encoding='utf-8') as f:
         json.dump(data_json, f, ensure_ascii=False)
         
