@@ -68,7 +68,7 @@ uvicorn main:app --reload
 Run background.py (checks if LinkedIn profile changed)
 
 ```
-TODO
+python background.py
 ```
 
 ## Authors
